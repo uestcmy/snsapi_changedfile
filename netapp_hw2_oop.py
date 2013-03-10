@@ -1,8 +1,3 @@
-class webimptce:
-    """The class of website"""
-    web_id = 0 #the name of the website
-    value = 0 #the valude of importance
-
 def calc_matrix_product(h,pi,next_pi):
     """the fuction to calc the importance"""
     for i in range(0,8):
@@ -19,24 +14,20 @@ def judge(pi,next_pi):
 
 
 file_o = open('./data_in.txt');
-#try:
-#    all_the_text = file_o.read();
-    #print all_the_text
-#finally:
-#    file_o.close()
+
 h = []
-with open('data_in.txt','r') as f:
+fout = open('./dataout.txt','w')
+with open('data_in.txt','r') as f:#read the data from the file
     for num in f:
         h.append(list(map(float,num.split())));
 
 pi = [1,0,0,0,0,0,0,0] #result
-
 for i in range(0,8):
     for j in range(0,8):
         h[i][j] = h[i][j] * 0.85
         h[i][j] += 0.15 * 0.125
 #print "h is ",h
-next_pi = pi[:];
+next_pi = pi[:];#next_pi : next round of pi
 cnt = 0;
 while(1):
     cnt = cnt + 1  #counter
@@ -45,17 +36,17 @@ while(1):
     if( judge(pi,next_pi) == 1 ):
         break;
     pi = next_pi[:];
-    
-for i in range(0,8):
-    print "%.5f\t" % pi[i]
 
 mylist = []
 for i in range(0,8):
     mylist.append((i,pi[i])); #make pair
 
 new_list = sorted(mylist,key = lambda mylist:mylist[1],reverse = True)
-print "the sorted is: \n"
-for num in new_list:
-   print num[0]+1
+fout.write("The result is: \n")
+for num in mylist:
+   fout.write(str(num[0]+1))
+   fout.write(' , ')
+   fout.write(str(num[1]))
+   fout.write('\n')
 
-
+fout.close()
